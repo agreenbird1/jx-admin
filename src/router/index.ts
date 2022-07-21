@@ -7,6 +7,24 @@ const router = createRouter({
       path: "/",
       name: "layout",
       component: () => import("@/views/Layout.vue"),
+      redirect: "/course",
+      children: [
+        {
+          path: "course",
+          name: "course",
+          component: () => import("@/views/course/index.vue"),
+        },
+        {
+          path: "chapter",
+          name: "chapter",
+          component: () => import("@/views/chapter/index.vue"),
+        },
+        {
+          path: "subject",
+          name: "subject",
+          component: () => import("@/views/subject/index.vue"),
+        },
+      ],
     },
   ],
   scrollBehavior(to, from, savedPosition) {
