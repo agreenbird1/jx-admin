@@ -1,5 +1,8 @@
 import { defineConfig, loadEnv } from "vite";
 import legacy from "@vitejs/plugin-legacy";
+import AutoImport from "unplugin-auto-import/vite";
+import Components from "unplugin-vue-components/vite";
+import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
 import vue from "@vitejs/plugin-vue";
 import { fileURLToPath, URL } from "url";
 import { normalizePath } from "vite";
@@ -27,6 +30,12 @@ export default defineConfig(({ mode, command }) => {
     base: "./",
     plugins: [
       vue(),
+      AutoImport({
+        resolvers: [ElementPlusResolver()],
+      }),
+      Components({
+        resolvers: [ElementPlusResolver()],
+      }),
       // gzip
       viteCompression({
         verbose: true,
