@@ -1,5 +1,11 @@
 <template>
-  <el-menu default-active="subject" width="200" :collapse="isCollapse" router>
+  <!-- 刷新的时候解决 item 与 当前路由不匹配的情况 -->
+  <el-menu
+    :default-active="(routes.name as string)"
+    width="200"
+    :collapse="isCollapse"
+    router
+  >
     <el-menu-item index="subject">
       <el-icon><i-ep-tickets /></el-icon>
       <template #title>题目管理</template>
@@ -18,8 +24,10 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import mitt from "@/utils/Bus";
+import { useRoute } from "vue-router";
 
 const isCollapse = ref(false);
+const routes = useRoute();
 mitt.on("asideCollapse", () => (isCollapse.value = !isCollapse.value));
 </script>
 

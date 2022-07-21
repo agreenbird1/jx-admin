@@ -7,7 +7,7 @@ const router = createRouter({
       path: "/",
       name: "layout",
       component: () => import("@/views/Layout.vue"),
-      redirect: "/course",
+      redirect: "/subject",
       children: [
         {
           path: "course",
