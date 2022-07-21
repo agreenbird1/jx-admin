@@ -29,6 +29,7 @@ import AsideMenu from "@/components/AsideMenu.vue";
   .main {
     height: 90vh;
     .el-main {
+      min-width: 600px;
       border: 10px solid #f1f3f5;
       padding: 0;
     }

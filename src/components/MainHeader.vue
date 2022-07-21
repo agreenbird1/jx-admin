@@ -30,6 +30,10 @@ const newItem = () => emits("newItem");
   height: 50px;
   padding: 0 16px 0 16px;
   border-bottom: 1px solid @bgColor;
+  & > div {
+    display: flex;
+    align-items: center;
+  }
   .el-icon {
     cursor: pointer;
     margin-right: 10px;
