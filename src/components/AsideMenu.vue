@@ -1,17 +1,12 @@
 <template>
-  <el-menu
-    default-active="course"
-    :class="isCollapse ? '' : 'coll'"
-    :collapse="isCollapse"
-    router
-  >
-    <el-menu-item index="course">
-      <el-icon><i-ep-data-board /></el-icon>
-      <template #title>课程管理</template>
-    </el-menu-item>
+  <el-menu default-active="subject" width="200" :collapse="isCollapse" router>
     <el-menu-item index="subject">
       <el-icon><i-ep-tickets /></el-icon>
       <template #title>题目管理</template>
+    </el-menu-item>
+    <el-menu-item index="course">
+      <el-icon><i-ep-data-board /></el-icon>
+      <template #title>课程管理</template>
     </el-menu-item>
     <el-menu-item index="chapter">
       <el-icon><i-ep-folder /></el-icon>
@@ -22,8 +17,15 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
+import mitt from "@/utils/Bus";
 
 const isCollapse = ref(false);
+mitt.on("asideCollapse", () => (isCollapse.value = !isCollapse.value));
 </script>
 
-<style scoped></style>
+<style scoped lang="less">
+.el-menu:not(.el-menu--collapse) {
+  width: 200px;
+  min-height: 400px;
+}
+</style>

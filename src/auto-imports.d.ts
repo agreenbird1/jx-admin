@@ -8,6 +8,7 @@ export {};
 declare module "@vue/runtime-core" {
   export interface GlobalComponents {
     AsideMenu: typeof import("./components/AsideMenu.vue")["default"];
+    ElButton: typeof import("element-plus/es")["ElButton"];
     ElContainer: typeof import("element-plus/es")["ElContainer"];
     ElHeader: typeof import("element-plus/es")["ElHeader"];
     ElIcon: typeof import("element-plus/es")["ElIcon"];
@@ -16,7 +17,9 @@ declare module "@vue/runtime-core" {
     ElMenuItem: typeof import("element-plus/es")["ElMenuItem"];
     IEpDataBoard: typeof import("~icons/ep/data-board")["default"];
     IEpFolder: typeof import("~icons/ep/folder")["default"];
+    IEpSwitch: typeof import("~icons/ep/switch")["default"];
     IEpTickets: typeof import("~icons/ep/tickets")["default"];
+    MainHeader: typeof import("./components/MainHeader.vue")["default"];
     RouterLink: typeof import("vue-router")["RouterLink"];
     RouterView: typeof import("vue-router")["RouterView"];
   }

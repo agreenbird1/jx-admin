@@ -30,10 +30,7 @@ import AsideMenu from "@/components/AsideMenu.vue";
     height: 90vh;
     .el-main {
       border: 10px solid #f1f3f5;
-      padding: 10px;
-    }
-    .coll {
-      width: 200px;
+      padding: 0;
     }
   }
 }
