@@ -21,7 +21,7 @@ const router = createRouter({
               path: "operatecourse",
               name: "operatecourse",
               component: () =>
-                import("@/views/course/components/operatecourse.vue"),
+                import("@/views/course/components/OperateCourse.vue"),
             },
           ],
         },
