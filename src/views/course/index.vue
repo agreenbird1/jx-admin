@@ -1,5 +1,10 @@
 <template>
   <div class="course">
+    <router-view v-slot="{ Component }">
+      <transition name="slide-fade">
+        <component :is="Component" />
+      </transition>
+    </router-view>
     <main-header @new-item="newCourse">
       <template #left>
         <el-input size="small" placeholder="id" />
@@ -8,17 +13,43 @@
       </template>
     </main-header>
     <div class="course-main">
-      <my-table :table-config="tableConfig" :table-data="tableData"></my-table>
+      <el-tabs v-model="activeCoures" type="card" class="demo-tabs">
+        <el-tab-pane label="已下架" name="removed"></el-tab-pane>
+        <el-tab-pane label="已发布" name="published"></el-tab-pane>
+      </el-tabs>
+      <my-table :table-config="tableConfig" :table-data="tableData">
+        <template #operation="scope">
+          <span @click="modifyCourse(scope.row)">修改</span>
+          <span class="operation" @click="removeCourse(scope.row.id)">
+            下架
+          </span>
+          <span @click="deleteCourse(scope.row.id)">删除</span>
+        </template>
+      </my-table>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { ref } from "vue";
 import MainHeader from "@/components/MainHeader.vue";
 import MyTable from "@/components/MyTable.vue";
 import tableConfig from "./components/CourseTable";
+import { useRouter } from "vue-router";
+
+const activeCoures = ref("removed");
+const router = useRouter();
 
 const newCourse = () => console.log("new course");
+const modifyCourse = (row: any) => {
+  router.push("/course/operatecourse");
+};
+const removeCourse = (id: string) => {
+  console.log(id);
+};
+const deleteCourse = (id: string) => {
+  console.log(id);
+};
 const tableData = [
   {
     id: "1",
@@ -60,12 +91,34 @@ const tableData = [
 
 <style scoped lang="less">
 .course {
+  height: 100%;
+  overflow: hidden;
   .el-input {
     width: 100px;
     margin-right: 10px;
   }
   .course-main {
     padding: 10px;
+    span {
+      color: @jxColor;
+      cursor: pointer;
+    }
+    .operation {
+      padding: 0 5px 0 5px;
+    }
   }
+}
+.slide-fade-enter-active {
+  transition: all 0.3s ease-out;
+}
+
+.slide-fade-leave-active {
+  transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  transform: translateX(20px);
+  opacity: 0;
 }
 </style>

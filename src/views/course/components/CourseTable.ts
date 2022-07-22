@@ -21,3 +21,16 @@ export default [
     minWidth: 250,
   },
 ];
+
+export const courseInfoTableConfig = [
+  {
+    prop: "name",
+    label: "资料名称",
+    minWidth: 200,
+  },
+  {
+    prop: "PDF",
+    label: "资料PDF链接",
+    minWidth: 400,
+  },
+];

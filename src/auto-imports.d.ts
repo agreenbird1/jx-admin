@@ -10,6 +10,7 @@ declare module "@vue/runtime-core" {
     AsideMenu: typeof import("./components/AsideMenu.vue")["default"];
     ElButton: typeof import("element-plus/es")["ElButton"];
     ElContainer: typeof import("element-plus/es")["ElContainer"];
+    ElDialog: typeof import("element-plus/es")["ElDialog"];
     ElHeader: typeof import("element-plus/es")["ElHeader"];
     ElIcon: typeof import("element-plus/es")["ElIcon"];
     ElInput: typeof import("element-plus/es")["ElInput"];
@@ -18,13 +19,17 @@ declare module "@vue/runtime-core" {
     ElMenuItem: typeof import("element-plus/es")["ElMenuItem"];
     ElTable: typeof import("element-plus/es")["ElTable"];
     ElTableColumn: typeof import("element-plus/es")["ElTableColumn"];
+    ElTabPane: typeof import("element-plus/es")["ElTabPane"];
+    ElTabs: typeof import("element-plus/es")["ElTabs"];
     ElTooltip: typeof import("element-plus/es")["ElTooltip"];
+    ElTree: typeof import("element-plus/es")["ElTree"];
     IEpDataBoard: typeof import("~icons/ep/data-board")["default"];
     IEpFolder: typeof import("~icons/ep/folder")["default"];
     IEpSwitch: typeof import("~icons/ep/switch")["default"];
     IEpTickets: typeof import("~icons/ep/tickets")["default"];
     MainHeader: typeof import("./components/MainHeader.vue")["default"];
     MyTable: typeof import("./components/MyTable.vue")["default"];
+    RequireLabel: typeof import("./components/RequireLabel.vue")["default"];
     RouterLink: typeof import("vue-router")["RouterLink"];
     RouterView: typeof import("vue-router")["RouterView"];
   }
