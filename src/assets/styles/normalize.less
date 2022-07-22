@@ -84,3 +84,20 @@ ul {
 .mb-10 {
   margin-bottom: 10px;
 }
+
+.el-tree {
+  color: @textColor !important;
+  .el-tree-node__children {
+    padding-left: 10px;
+    .el-tree-node {
+      .el-tree-node__content {
+        height: 40px;
+        text-align: center;
+      }
+    }
+  }
+  .el-tree-node > .el-tree-node__content {
+    height: 40px;
+    text-align: center;
+  }
+}
