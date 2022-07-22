@@ -40,12 +40,10 @@
     </div>
     <div class="info pt-10">
       资料
-      <el-button type="primary" size="small" @click="addInfo">添加</el-button>
-      <my-table
-        class="pt-10"
-        :table-config="courseInfoTableConfig"
-        :table-data="tableData"
+      <el-button class="mb-10" type="primary" size="small" @click="addInfo"
+        >添加</el-button
       >
+      <my-table :table-config="courseInfoTableConfig" :table-data="tableData">
         <template #operation="scope">
           <a @click="updateInfo(scope.row)">修改</a>
           <a style="margin-left: 8px" @click="deleteInfo">删除</a>
