@@ -1,4 +1,7 @@
 import { createRouter, createWebHashHistory } from "vue-router";
+import nProgress from "nprogress";
+// 需要引入css
+import "nprogress/nprogress.css";
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -31,6 +34,15 @@ const router = createRouter({
     if (savedPosition) return savedPosition;
     return { top: 0, left: 0 };
   },
+});
+
+// 配置 nprogress
+router.beforeEach((to, from, next) => {
+  nProgress.start();
+  next();
+});
+router.afterEach(() => {
+  nProgress.done();
 });
 
 export default router;
