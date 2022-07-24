@@ -34,6 +34,14 @@ const router = createRouter({
           path: "subject",
           name: "subject",
           component: () => import("@/views/subject/index.vue"),
+          children: [
+            {
+              path: "operatesubject",
+              name: "operatesubject",
+              component: () =>
+                import("@/views/subject/components/OperateSubject.vue"),
+            },
+          ],
         },
       ],
     },

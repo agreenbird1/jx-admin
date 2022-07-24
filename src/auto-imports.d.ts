@@ -17,6 +17,10 @@ declare module "@vue/runtime-core" {
     ElMain: typeof import("element-plus/es")["ElMain"];
     ElMenu: typeof import("element-plus/es")["ElMenu"];
     ElMenuItem: typeof import("element-plus/es")["ElMenuItem"];
+    ElOption: typeof import("element-plus/es")["ElOption"];
+    ElRadio: typeof import("element-plus/es")["ElRadio"];
+    ElRadioGroup: typeof import("element-plus/es")["ElRadioGroup"];
+    ElSelect: typeof import("element-plus/es")["ElSelect"];
     ElTable: typeof import("element-plus/es")["ElTable"];
     ElTableColumn: typeof import("element-plus/es")["ElTableColumn"];
     ElTabPane: typeof import("element-plus/es")["ElTabPane"];
@@ -27,6 +31,7 @@ declare module "@vue/runtime-core" {
     IEpFolder: typeof import("~icons/ep/folder")["default"];
     IEpSwitch: typeof import("~icons/ep/switch")["default"];
     IEpTickets: typeof import("~icons/ep/tickets")["default"];
+    IEpWarning: typeof import("~icons/ep/warning")["default"];
     MainHeader: typeof import("./components/MainHeader.vue")["default"];
     MyTable: typeof import("./components/MyTable.vue")["default"];
     RequireLabel: typeof import("./components/RequireLabel.vue")["default"];
