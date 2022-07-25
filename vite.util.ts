@@ -37,6 +37,14 @@ export const externalConfig: IExternalConfig[] = [
     scope: "axios",
     js: ["https://cdn.bootcdn.net/ajax/libs/axios/0.27.2/axios.min.js"],
   },
+  {
+    name: "element-plus",
+    scope: "ElementPlus",
+    js: [
+      "https://cdn.bootcdn.net/ajax/libs/element-plus/2.2.10/index.full.min.js",
+    ],
+    css: ["https://cdn.bootcdn.net/ajax/libs/element-plus/2.2.10/index.css"],
+  },
 ];
 
 /**

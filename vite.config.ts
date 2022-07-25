@@ -122,8 +122,11 @@ export default defineConfig(({ mode, command }) => {
           assetFileNames: "static/[ext]/[name]-[hash].[ext]",
           // 拆包策略，可以传递一个对象，也可以配置一个函数
           manualChunks(id) {
-            // 拆分Chunks
+            if (id.includes("element-plus")) {
+              console.log(id);
+            }
             if (id.includes("node_modules")) {
+              // 拆分Chunks
               return id
                 .toString()
                 .split("node_modules/")[1]
