@@ -9,21 +9,21 @@
       :class="{'is-active':(routes.path as string).startsWith('/subject')}"
       index="/subject"
     >
-      <el-icon><i-ep-tickets /></el-icon>
+      <el-icon><tickets /></el-icon>
       <template #title>题目管理</template>
     </el-menu-item>
     <el-menu-item
       :class="{'is-active':(routes.path as string).startsWith('/course')}"
       index="/course"
     >
-      <el-icon><i-ep-data-board /></el-icon>
+      <el-icon><data-board /></el-icon>
       <template #title>课程管理</template>
     </el-menu-item>
     <el-menu-item
       :class="{'is-active':(routes.path as string).startsWith('/chapter')}"
       index="/chapter"
     >
-      <el-icon><i-ep-folder /></el-icon>
+      <el-icon><folder /></el-icon>
       <template #title>章节管理</template>
     </el-menu-item>
   </el-menu>

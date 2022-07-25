@@ -4,13 +4,71 @@ import MainHeader from "./MainHeader.vue";
 import MyTable from "./MyTable.vue";
 import RequireLabel from "./RequireLabel.vue";
 import MySwitch from "./MySwitch.vue";
+import {
+  DataBoard,
+  Folder,
+  Tickets,
+  Switch,
+  Warning,
+} from "@element-plus/icons-vue";
+import {
+  ElIcon,
+  ElButton,
+  ElTooltip,
+  ElTable,
+  ElTableColumn,
+  ElDialog,
+  ElInput,
+  ElSelect,
+  ElOption,
+  ElTree,
+  ElTabs,
+  ElTabPane,
+  ElRadio,
+  ElRadioGroup,
+  ElHeader,
+  ElContainer,
+  ElMain,
+  ElMenu,
+  ElMenuItem,
+} from "element-plus";
 
 AsideMenu.name = "aside-menu";
 MainHeader.name = "main-header";
 MyTable.name = "my-table";
 RequireLabel.name = "require-label";
 MySwitch.name = "my-switch";
-const components = [RequireLabel, MyTable, MainHeader, AsideMenu, MySwitch];
+const components = [
+  RequireLabel,
+  MyTable,
+  MainHeader,
+  AsideMenu,
+  MySwitch,
+  ElIcon,
+  ElButton,
+  ElTooltip,
+  ElTable,
+  ElTableColumn,
+  ElDialog,
+  ElInput,
+  ElSelect,
+  ElOption,
+  ElTree,
+  ElTabs,
+  ElTabPane,
+  ElRadio,
+  ElRadioGroup,
+  ElHeader,
+  ElContainer,
+  ElMain,
+  DataBoard,
+  Folder,
+  Tickets,
+  Switch,
+  Warning,
+  ElMenu,
+  ElMenuItem,
+];
 
 export default {
   install: (app: App) => {

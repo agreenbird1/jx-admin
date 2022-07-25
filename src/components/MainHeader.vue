@@ -1,7 +1,7 @@
 <template>
   <div class="main-header">
     <div>
-      <el-icon @click="changeMenu"><i-ep-switch /></el-icon>
+      <el-icon @click="changeMenu"><switch /></el-icon>
       <slot name="left"></slot>
     </div>
     <div>
