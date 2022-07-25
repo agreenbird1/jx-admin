@@ -18,15 +18,12 @@ declare module "@vue/runtime-core" {
     ElMenu: typeof import("element-plus/es")["ElMenu"];
     ElMenuItem: typeof import("element-plus/es")["ElMenuItem"];
     ElOption: typeof import("element-plus/es")["ElOption"];
-    ElRadio: typeof import("element-plus/es")["ElRadio"];
-    ElRadioGroup: typeof import("element-plus/es")["ElRadioGroup"];
     ElSelect: typeof import("element-plus/es")["ElSelect"];
     ElTable: typeof import("element-plus/es")["ElTable"];
     ElTableColumn: typeof import("element-plus/es")["ElTableColumn"];
     ElTabPane: typeof import("element-plus/es")["ElTabPane"];
     ElTabs: typeof import("element-plus/es")["ElTabs"];
     ElTooltip: typeof import("element-plus/es")["ElTooltip"];
-    ElTree: typeof import("element-plus/es")["ElTree"];
     IEpDataBoard: typeof import("~icons/ep/data-board")["default"];
     IEpFolder: typeof import("~icons/ep/folder")["default"];
     IEpSwitch: typeof import("~icons/ep/switch")["default"];
