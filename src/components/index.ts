@@ -31,6 +31,7 @@ import {
   ElMain,
   ElMenu,
   ElMenuItem,
+  ElPagination,
 } from "element-plus";
 
 AsideMenu.name = "aside-menu";
@@ -68,6 +69,7 @@ const components = [
   Warning,
   ElMenu,
   ElMenuItem,
+  ElPagination,
 ];
 
 export default {
