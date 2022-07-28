@@ -2,6 +2,10 @@ import { createRouter, createWebHashHistory } from "vue-router";
 import nProgress from "nprogress";
 // 需要引入css
 import "nprogress/nprogress.css";
+import { useAdminStore } from "@/store/admin";
+import pinia from "@/store";
+
+const adminStore = useAdminStore(pinia);
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -44,6 +48,13 @@ const router = createRouter({
           ],
         },
       ],
+      beforeEnter(to) {
+        if (adminStore && adminStore.id) return true;
+        else {
+          router.push("/login");
+          return false;
+        }
+      },
     },
     {
       path: "/login",
