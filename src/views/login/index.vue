@@ -12,8 +12,12 @@
         label-width="120px"
         class="demo-ruleForm"
       >
-        <el-form-item label-width="70px" label="用户名" prop="user">
-          <el-input v-model="ruleForm.user" type="text" autocomplete="off" />
+        <el-form-item label-width="70px" label="用户名" prop="nickname">
+          <el-input
+            v-model="ruleForm.nickname"
+            type="text"
+            autocomplete="off"
+          />
         </el-form-item>
         <el-form-item label-width="70px" label="密码" prop="password">
           <el-input
@@ -38,9 +42,15 @@
 <script setup lang="ts">
 import { reactive, ref } from "vue";
 import type { FormInstance } from "element-plus";
+import { login } from "@/api";
+import { ElMessage } from "element-plus";
+import router from "@/router";
+import { useAdminStore } from "@/store/admin";
+import storage from "@/utils/storage";
 
+// 表单实例
 const ruleFormRef = ref<FormInstance>();
-
+// 校验规则
 const validatePass = (rule: unknown, value: string, callback: any) => {
   if (value === "") {
     callback(new Error("密码不能为空"));
@@ -58,21 +68,31 @@ const validateUser = (rule: unknown, value: string, callback: any) => {
   return true;
 };
 
+const adminStore = useAdminStore();
 const ruleForm = reactive({
-  user: "",
-  password: "",
+  nickname: "admin",
+  password: "123456",
 });
-
 const rules = reactive({
   password: [{ validator: validatePass, trigger: "blur" }],
-  user: [{ validator: validateUser, trigger: "blur" }],
+  nickname: [{ validator: validateUser, trigger: "blur" }],
 });
 
 const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
-  formEl.validate((valid) => {
+  formEl.validate(async (valid) => {
     if (valid) {
-      console.log("submit!");
+      const { data } = await login(ruleForm.nickname, ruleForm.password);
+      if (data.code !== 2002) {
+        // 成功状态码
+        ElMessage.error(data.msg);
+      } else {
+        // 初始化 pinia、本地存储
+        ElMessage.success(data.msg);
+        adminStore.$patch(data.data);
+        storage.setStorage("admin", data.data);
+        router.push("/");
+      }
     }
   });
 };
