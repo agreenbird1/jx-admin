@@ -4,7 +4,7 @@
     <span class="switch-bar" @click="changeSwitch">
       <span
         class="switch-dot"
-        :class="modelValue ? 'active' : 'de-active'"
+        :class="active === 1 ? 'active' : 'de-active'"
       ></span>
     </span>
   </div>
@@ -13,13 +13,13 @@
 <script setup lang="ts">
 const props = defineProps<{
   label?: string;
-  modelValue: boolean;
+  active: 1 | 2;
 }>();
 const emit = defineEmits(["update:modelValue"]);
 
 const changeSwitch = (e: Event) => {
   e.stopPropagation();
-  emit("update:modelValue", !props.modelValue);
+  emit("update:modelValue", props.active === 1 ? 2 : 1);
 };
 </script>
 
