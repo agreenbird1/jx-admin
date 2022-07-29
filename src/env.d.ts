@@ -6,3 +6,11 @@ declare module "*.vue" {
   const component: DefineComponent<{}, {}, any>;
   export default component;
 }
+
+declare interface ITableConfig {
+  prop: string;
+  label: string;
+  minWidth?: number;
+  tooltip?: boolean;
+  slotName?: string;
+}
