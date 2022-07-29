@@ -79,9 +79,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed, PropType } from "vue";
+import { PropType } from "vue";
 
-const props = defineProps({
+defineProps({
   tableData: {
     type: Array,
     required: true,

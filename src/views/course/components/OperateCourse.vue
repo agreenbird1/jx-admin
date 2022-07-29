@@ -43,7 +43,11 @@
       <el-button class="mb-10" type="primary" size="small" @click="addInfo"
         >添加</el-button
       >
-      <my-table :table-config="courseInfoTableConfig" :table-data="tableData">
+      <my-table
+        :table-config="courseInfoTableConfig"
+        :table-data="tableData"
+        :total="4"
+      >
         <template #operation="scope">
           <a @click="updateInfo(scope.row)">修改</a>
           <a style="margin-left: 8px" @click="deleteInfo">删除</a>
