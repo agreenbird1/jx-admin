@@ -34,6 +34,7 @@
 import AsideMenu from "@/components/AsideMenu.vue";
 import { useAdminStore } from "@/store/admin";
 import storage from "@/utils/storage";
+import router from "@/router";
 import { ElMessage } from "element-plus";
 
 const adminStore = useAdminStore();
@@ -42,6 +43,7 @@ const logout = () => {
   adminStore.$patch({});
   storage.deleteStorage("admin");
   ElMessage.success("退出成功！");
+  router.push("/login");
 };
 </script>
 
