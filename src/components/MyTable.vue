@@ -1,9 +1,10 @@
 <template>
-  <div class="my-table">
+  <div v-loading="loading" class="my-table" element-loading-text="加载中...">
     <el-table
       :data="tableData"
       style="width: 100%"
       border
+      empty-text="暂时没有数据"
       @select-all="selectionChange"
       @selection-change="selectionChange"
     >
@@ -63,13 +64,13 @@
       </el-table-column>
     </el-table>
     <footer class="mt-10">
-      <span>共 {{ 1000 }} 条</span>
+      <span>共 {{ total }} 条</span>
       <el-pagination
         v-model:currentPage="currentPage"
-        :page-size="100"
+        :page-size="20"
         background
         layout="prev, pager, next"
-        :total="1000"
+        :total="total"
         small
         @current-change="handleCurrentChange"
       />
@@ -78,21 +79,12 @@
 </template>
 
 <script setup lang="ts">
-import type { PropType } from "vue";
+import { computed, PropType } from "vue";
 
-interface ITableConfig {
-  prop: string;
-  label: string;
-  minWidth?: number;
-  tooltip?: boolean;
-  slotName?: string;
-}
-
-defineProps({
+const props = defineProps({
   tableData: {
     type: Array,
-    required: false,
-    default: () => [],
+    required: true,
   },
   // 是否需要 index 列
   isIndexColumn: {
@@ -125,12 +117,17 @@ defineProps({
     type: Number,
     required: true,
   },
+  loading: {
+    type: Boolean,
+    default: false,
+  },
 });
 // 列表选中、分页
-const emit = defineEmits(["selectionChange", "handleCurrentChange"]);
+const emit = defineEmits(["selectionChange", "update:currentPage"]);
 const selectionChange = (...args: any[]) => emit("selectionChange", args);
 const handleCurrentChange = (currentPage: number) =>
-  emit("handleCurrentChange", currentPage);
+  // 组件的v-model
+  emit("update:currentPage", currentPage);
 </script>
 
 <style scoped lang="less">
