@@ -34,20 +34,14 @@
 import AsideMenu from "@/components/AsideMenu.vue";
 import { useAdminStore } from "@/store/admin";
 import storage from "@/utils/storage";
-import { logout as logoutApi } from "@/api";
 import { ElMessage } from "element-plus";
 
 const adminStore = useAdminStore();
 const logout = () => {
-  logoutApi().then((res) => {
-    if (res.data.code >= 2000 && res.data.code < 3000) {
-      adminStore.$patch({});
-      storage.deleteStorage("admin");
-      ElMessage.success("退出成功！");
-    } else {
-      ElMessage.error("退出失败！");
-    }
-  });
+  document.cookie = "satoken=;path=/";
+  adminStore.$patch({});
+  storage.deleteStorage("admin");
+  ElMessage.success("退出成功！");
 };
 </script>
 
