@@ -1,7 +1,14 @@
 <template>
   <div class="main-header">
     <div>
-      <el-icon @click="changeMenu"><switch /></el-icon>
+      <el-icon @click="changeMenu">
+        <template v-if="!isFold">
+          <fold />
+        </template>
+        <template v-else>
+          <expand />
+        </template>
+      </el-icon>
       <slot name="left"></slot>
     </div>
     <div>
@@ -16,9 +23,14 @@
 
 <script setup lang="ts">
 import mitt from "@/utils/Bus";
+import { ref } from "vue";
 
+const isFold = ref(false);
 const emits = defineEmits(["newItem"]);
-const changeMenu = () => mitt.emit("asideCollapse");
+const changeMenu = () => {
+  mitt.emit("asideCollapse");
+  isFold.value = !isFold.value;
+};
 const newItem = () => emits("newItem");
 </script>
 

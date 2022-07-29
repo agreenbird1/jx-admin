@@ -10,6 +10,9 @@ import {
   Tickets,
   Switch,
   Warning,
+  ArrowDown,
+  Fold,
+  Expand,
 } from "@element-plus/icons-vue";
 import {
   ElIcon,
@@ -32,6 +35,15 @@ import {
   ElMenu,
   ElMenuItem,
   ElPagination,
+  ElAvatar,
+  ElDropdown,
+  ElDropdownMenu,
+  ElDropdownItem,
+  ElCard,
+  ElForm,
+  ElFormItem,
+  vLoading,
+  ElCascader,
 } from "element-plus";
 
 AsideMenu.name = "aside-menu";
@@ -39,6 +51,7 @@ MainHeader.name = "main-header";
 MyTable.name = "my-table";
 RequireLabel.name = "require-label";
 MySwitch.name = "my-switch";
+const directives = [vLoading];
 const components = [
   RequireLabel,
   MyTable,
@@ -70,6 +83,17 @@ const components = [
   ElMenu,
   ElMenuItem,
   ElPagination,
+  ElAvatar,
+  ElDropdown,
+  ElDropdownMenu,
+  ElDropdownItem,
+  ArrowDown,
+  Fold,
+  ElCard,
+  ElForm,
+  ElFormItem,
+  Expand,
+  ElCascader,
 ];
 
 export default {
@@ -77,5 +101,6 @@ export default {
     components.forEach((component) => {
       app.component(component.name, component);
     });
+    app.directive("loading", vLoading);
   },
 };
