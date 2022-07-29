@@ -7,39 +7,70 @@
     </router-view>
     <main-header @new-item="newSubject">
       <template #left>
-        <el-input size="small" placeholder="请输入题号" />
-        <el-select class="mr-10" placeholder="请选择章节" size="small">
-          <el-option
-            v-for="item in [1, 2, 3]"
-            :key="item"
-            :label="item"
-            :value="item"
-          />
-        </el-select>
-        <el-button size="small" type="primary">查询</el-button>
+        <el-input
+          v-model="topicNumber"
+          size="small"
+          placeholder="请输入题号"
+          type="text"
+        />
+        <el-cascader
+          v-model="chapterId"
+          :props="casProps"
+          size="small"
+          :options="(chapters as any)"
+          placeholder="请选择章节"
+          clearable
+          @change="cascaderChange"
+        />
+        <el-button size="small" type="primary" @click="getTableData">
+          查询
+        </el-button>
       </template>
     </main-header>
     <div class="subject-main">
-      <my-table :table-config="tableConfig" :table-data="tableData">
+      <my-table
+        v-model:current-page="currentPage"
+        :table-config="tableConfig"
+        :total="total"
+        :table-data="tableData"
+        :loading="loading"
+      >
         <template #operation="scope">
-          <span @click="modifySubject(scope.row)">修改</span>
-          <span class="ml-10" @click="deleteSubject(scope.row.id)">删除</span>
+          <span @click="modifySubject(scope.row.id)">修改</span>
+          <span
+            v-if="scope.row.isDelete === 1"
+            class="ml-10"
+            @click="deleteSubject(scope.row.id)"
+            >删除</span
+          >
+        </template>
+        <template #updateTime="scope">
+          {{ formatTime(scope.row.updateTime) }}
+        </template>
+        <template #type="scope">
+          {{
+            scope.row.type === 1
+              ? "单选"
+              : scope.row.type === 2
+              ? "多选"
+              : "不定项"
+          }}
+        </template>
+        <template #isDelete="scope">
+          <span v-if="scope.row.isDelete === 1">未删除</span>
+          <span v-else style="color: #ff0303">已删除</span>
         </template>
       </my-table>
     </div>
 
     <el-dialog v-model="deleteDialogVisible" title="删除" width="30%">
-      <el-icon color="red" class="mr-10"><i-ep-warning /></el-icon>正在进行
+      <el-icon color="red" class="mr-10"><warning /></el-icon>正在进行
       <span style="color: red">删除题目</span>操作，请确认无误后进行删除！
       <template #footer>
-        <el-button size="small" @click="deleteDialogVisible = false"
-          >取消</el-button
-        >
-        <el-button
-          type="primary"
-          size="small"
-          @click="deleteDialogVisible = false"
-        >
+        <el-button size="small" @click="deleteDialogVisible = false">
+          取消
+        </el-button>
+        <el-button type="primary" size="small" @click="deleteSubjectConfirm">
           确定
         </el-button>
       </template>
@@ -47,69 +78,107 @@
   </div>
 </template>
 <script setup lang="ts">
+import { ref, watch } from "vue";
 import MyTable from "@/components/MyTable.vue";
-import { ref } from "vue";
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import tableConfig from "./components/SubjectTable";
+import {
+  getSubjects,
+  getAllChapter,
+  IChapterData,
+  deleteSubject as deleteSubjectApi,
+} from "@/api";
+import type { ISubject } from "@/api";
+import formatTime from "@/utils/formatTime";
+import { ElMessage } from "element-plus";
 
-interface ISubject {
-  id: string;
-  stem: string;
-  options: string;
-  chapter: string;
-  type: string;
-  updateTime: string;
-}
-
+const route = useRoute();
+const currentSubjectId = ref<number>();
+const chapters = ref<IChapterData[]>();
+const currentPage = ref(1);
+const total = ref(1);
+const topicNumber = ref<number | undefined>(undefined); // 题号
+const loading = ref(true);
+const chapterId = ref<number[]>([]); // 章节id
 const deleteDialogVisible = ref(false);
 const router = useRouter();
-const tableData: ISubject[] = [
-  {
-    id: "12123",
-    stem: "我是题干，我是体感",
-    options: "我是选项，我是玄学",
-    chapter: "我是章节",
-    type: "我是提醒",
-    updateTime: "2022-12-21 12:31",
-  },
-  {
-    id: "12123",
-    stem: "我是题干，我是体感",
-    options: "我是选项，我是玄学",
-    chapter: "我是章节",
-    type: "我是提醒",
-    updateTime: "2022-12-21 12:31",
-  },
-  {
-    id: "12123",
-    stem: "我是题干，我是体感",
-    options: "我是选项，我是玄学",
-    chapter: "我是章节",
-    type: "我是提醒",
-    updateTime: "2022-12-21 12:31",
-  },
-  {
-    id: "12123",
-    stem: "我是题干，我是体感,我是题干，我是体感我是题干，我是体感我是题干，我是体感我是题干，我是我是题干，我是体感我是题干，我是体感我是题干，我是体感我是题干，我是体感我是题干，我是体感我是题干，我是体感我是题干，我是体感我是题干，我是体感我是题干，我是体感我是题干，我是体感我是题干，我是体感我是题干，我是体感我是题干，我是体感我是题干，我是体感我是题干，我是体感我是题干，我是体感我是题干，我是体感我是题干，我是体感我是题干，我是体感我是题干，我是体感我是题干，我是体感我是题干，我是体感我是题干，我是体感我是题干，我是体感我是题干，我是体感我是题干，我是体感我是题干，我是体感我是题干，我是体感我是题干，我是体感我是题干，我是体感我是题干，我是体感我是题干，我是体感我是题干，我是体感我是题干，我是体感我是题干，我是体感体感我是题干，我是体感",
-    options: "我是选项，我是玄学",
-    chapter: "我是章节",
-    type: "我是提醒",
-    updateTime: "2022-12-21 12:31",
-  },
-];
+const tableData = ref<ISubject[]>([]);
+const casProps = {
+  label: "content",
+  value: "id",
+};
 
+getAllChapter().then((res) => {
+  chapters.value = res.data.data;
+});
+const getTableData = () => {
+  loading.value = true;
+  getSubjects({
+    currentPage: currentPage.value,
+    topicNumber: topicNumber.value,
+    chapterId: chapterId.value[2],
+  })
+    .then(({ data }) => {
+      loading.value = false;
+      tableData.value = data.data.otopics;
+      total.value = data.data.pageVo.total;
+      currentPage.value = data.data.pageVo.currentPage;
+    })
+    .catch(() => {
+      // 题号 不处于 查询的章节条件下的时候报错
+      tableData.value = [];
+      loading.value = false;
+      total.value = 0;
+      currentPage.value = 1;
+    });
+};
+watch(
+  () => currentPage.value,
+  () => {
+    tableData.value = [];
+    getTableData();
+  }
+);
 const newSubject = () => {
   console.log("newSubject");
   router.push("/subject/operatesubject");
 };
-const modifySubject = (subject: ISubject) => {
-  console.log("modifySubject");
-  router.push("/subject/operatesubject");
+// 携带id参数
+const modifySubject = (id: number) => {
+  router.push({
+    path: "/subject/operatesubject",
+    query: {
+      id,
+    },
+  });
 };
 const deleteSubject = (id: number) => {
-  console.log("deleteSubject");
+  currentSubjectId.value = id;
   deleteDialogVisible.value = true;
 };
+const deleteSubjectConfirm = () => {
+  deleteSubjectApi(currentSubjectId.value as number).then((res) => {
+    deleteDialogVisible.value = false;
+    if (res.data.code === 2005) {
+      ElMessage.success("删除成功！");
+      getTableData();
+    } else ElMessage.error("删除失败！");
+  });
+};
+const cascaderChange = (val: number[] | null) => {
+  // 不论怎么变化，都需要重新请求
+  if (val === null) {
+    chapterId.value = [];
+  }
+  getTableData();
+};
+watch(
+  () => route.path,
+  () => getTableData(),
+  {
+    immediate: true,
+  }
+);
 </script>
 
 <style scoped lang="less">
@@ -121,8 +190,13 @@ const deleteSubject = (id: number) => {
     width: 100px;
     margin-right: 10px;
   }
+  :deep(.el-cascader) {
+    width: 100px;
+    margin-right: 10px;
+  }
   .subject-main {
     padding: 10px;
+    height: calc(100% - 50px);
     span {
       color: @jxColor;
       cursor: pointer;

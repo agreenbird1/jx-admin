@@ -1,5 +1,3 @@
-import { ref } from "vue";
-
 const initParams = {
   noneditable_editable_class: "mceNoneEditable",
   editable_editable_class: "mceEditable",
@@ -94,6 +92,5 @@ const initParams = {
     configUrl: "https://img.juexiaotime.com/app/CDN/tinymce/mathjax/config.js", //optional: mathjax config js
   },
 };
-const resolveWords = ref("");
 
-export { initParams, resolveWords };
+export { initParams };

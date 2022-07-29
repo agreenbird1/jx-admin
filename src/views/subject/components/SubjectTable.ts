@@ -1,11 +1,11 @@
-export default [
+export default <ITableConfig[]>[
   {
-    prop: "id",
+    prop: "topicNumber",
     label: "题号",
     minWidth: 120,
   },
   {
-    prop: "stem",
+    prop: "title",
     label: "题干",
     tooltip: true,
     minWidth: 250,
@@ -17,7 +17,7 @@ export default [
     minWidth: 220,
   },
   {
-    prop: "chapter",
+    prop: "content",
     label: "章节",
     minWidth: 220,
     tooltip: true,
@@ -26,10 +26,18 @@ export default [
     prop: "type",
     label: "题型",
     minWidth: 100,
+    slotName: "type",
   },
   {
     prop: "updateTime",
     label: "更新时间",
     minWidth: 220,
+    slotName: "updateTime",
+  },
+  {
+    prop: "isDelete",
+    label: "状态",
+    minWidth: 140,
+    slotName: "isDelete",
   },
 ];
