@@ -105,7 +105,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
   justify-content: center;
   width: 100%;
   height: 100%;
-  background: no-repeat url("../../assets/imgs/login-bg.png") center;
+  background: no-repeat url("@/assets/imgs/login-bg.png") center;
   background-size: cover;
   .el-card {
     .title {
