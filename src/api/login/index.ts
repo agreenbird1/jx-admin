@@ -18,7 +18,3 @@ export const login = (nickname: string, password: string) => {
     password,
   });
 };
-
-export const logout = () => {
-  return request<null>("/auth/logout", "post");
-};
