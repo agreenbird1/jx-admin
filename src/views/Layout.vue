@@ -4,12 +4,10 @@
       <el-header>
         <img src="../assets/logo.png" />
         <div class="user">
-          <el-avatar
-            src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
-          />
+          <el-avatar :src="adminStore.avatar" />
           <el-dropdown>
-            <span class="el-dropdown-link">
-              用户
+            <span class="el-dropdown-link ml-10">
+              {{ adminStore.nickname }}
               <el-icon class="el-icon--right">
                 <arrow-down />
               </el-icon>
