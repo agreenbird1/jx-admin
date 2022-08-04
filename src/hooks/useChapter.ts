@@ -20,7 +20,6 @@ const useChapter = () => {
     type: 1,
     id: undefined,
   };
-  const show = ref<1 | 2>(1); // 与 dialog 中的下拉框对应
   const chapters = ref<IChapterData[]>(); // 所有的数据
   const chapter = ref<IChapterData>(); // 当前操作的 chapter
   const parentChapterId = ref<number>();
@@ -61,24 +60,21 @@ const useChapter = () => {
   // 添加章节
   // 注意：添加子级的时候，子级是否展示由父级决定！
   const addChapter = (curChapter: IChapterData, e?: Event) => {
-    console.log(curChapter);
     e && e.stopPropagation();
     isUpdate = false;
-    const { id, type, isFrontendShow } = curChapter;
+    const { id, type } = curChapter;
     chapterDialogVisible.value = true;
     chapter.value = { ...initChapter };
     chapter.value!.parentId = id;
     chapter.value!.type = type! + 1;
-    chapter.value!.isFrontendShow = isFrontendShow;
   };
   // 更新章节内容 或者 是否显示
   const updateFn = (curChapter: IChapterData, e?: Event) => {
     isUpdate = true;
     e && e.stopPropagation();
     chapterDialogVisible.value = true;
-    const { isFrontendShow, id, content } = curChapter;
-    chapter.value = { isFrontendShow, id, content };
-    show.value = curChapter.isFrontendShow!;
+    const { isFrontendShow, id, content, type } = curChapter;
+    chapter.value = { isFrontendShow, id, content, type };
   };
   // 删除章节
   const deleteChapter = (id: number, e?: Event) => {
@@ -93,10 +89,12 @@ const useChapter = () => {
       judgeParentOpen(curChapter.id!, curChapter.type!) ||
       curChapter.type === 1
     ) {
+      isLoading.value = true;
       updateChapterApi({
         isFrontendShow,
         id: curChapter.id,
       }).then((res) => {
+        isLoading.value = false;
         reqCb(res.data.code, "修改成功！", "修改失败！");
       });
     } else ElMessage.warning("请先开启父级展示！");
@@ -109,6 +107,13 @@ const useChapter = () => {
     else confirmAdd();
   };
   const confirmAdd = () => {
+    // 父级未打开时候添加子类，如果子类设置为显示则将其关闭
+    chapter.value!.isFrontendShow = judgeParentOpen(
+      chapter.value!.id!,
+      chapter.value!.type!
+    )
+      ? 1
+      : 2;
     createChapter(chapter.value as IChapterData).then((res) => {
       reqCb(res.data.code, "创建章节成功！", "创建章节失败！");
     });
@@ -119,9 +124,10 @@ const useChapter = () => {
       judgeParentOpen(chapter.value!.id!, chapter.value!.type!) ||
       chapter.value!.type === 1
     ) {
-      chapter.value!.isFrontendShow = show.value;
+      isLoading.value = true;
       updateChapterApi(chapter.value as IChapterData).then((res) => {
         reqCb(res.data.code, "修改成功！", "修改失败！");
+        isLoading.value = false;
       });
     } else ElMessage.warning("请先开启父级展示！");
   };
@@ -141,7 +147,6 @@ const useChapter = () => {
 
   return {
     isLoading,
-    show,
     chapterDialogVisible,
     deleteDialogVisible,
     chapters,

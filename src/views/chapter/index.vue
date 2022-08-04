@@ -45,7 +45,7 @@
         type="text"
       />
       <require-label text="前端是否展示" />
-      <el-select v-model="show" placeholder="前端是否展示">
+      <el-select v-model="chapter!.isFrontendShow" placeholder="前端是否展示">
         <el-option key="是" label="是" :value="1" />
         <el-option key="否" label="否" :value="2" />
       </el-select>
@@ -80,7 +80,6 @@ import useCourseChapter from "@/hooks/useChapter";
 // 章节
 const {
   isLoading,
-  show,
   chapterDialogVisible,
   deleteDialogVisible,
   chapters,
