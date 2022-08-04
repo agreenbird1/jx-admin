@@ -38,7 +38,12 @@ import { ElMessage } from "element-plus";
 const adminStore = useAdminStore();
 const logout = () => {
   document.cookie = "satoken=;path=/";
-  adminStore.$patch({});
+  // patch是合并！
+  adminStore.$patch({
+    id: 0,
+    nickname: "",
+    avatar: "",
+  });
   storage.deleteStorage("admin");
   ElMessage.success("退出成功！");
   router.push("/login");
