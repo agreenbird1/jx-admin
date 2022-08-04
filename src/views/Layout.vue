@@ -4,6 +4,9 @@
       <el-header>
         <img src="../assets/logo.png" />
         <div class="user">
+          <span class="full-screen mr-10 pt-10" @click="toggleFullScreen()"
+            ><el-icon><FullScreen /></el-icon
+          ></span>
           <el-avatar :src="adminStore.avatar" />
           <el-dropdown>
             <span class="el-dropdown-link ml-10">
@@ -34,8 +37,10 @@ import { useAdminStore } from "@/store/admin";
 import storage from "@/utils/storage";
 import router from "@/router";
 import { ElMessage } from "element-plus";
+import useFullScreen from "@/hooks/useFullScreen";
 
 const adminStore = useAdminStore();
+const { toggleFullScreen } = useFullScreen();
 const logout = () => {
   document.cookie = "satoken=;path=/";
   // patch是合并！
@@ -64,6 +69,9 @@ const logout = () => {
       display: flex;
       align-items: center;
       cursor: pointer;
+      .full-screen {
+        font-size: 22px;
+      }
     }
   }
   .main {

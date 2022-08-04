@@ -13,6 +13,7 @@ import {
   ArrowDown,
   Fold,
   Expand,
+  FullScreen,
 } from "@element-plus/icons-vue";
 import {
   ElIcon,
@@ -94,6 +95,7 @@ const components = [
   ElFormItem,
   Expand,
   ElCascader,
+  FullScreen,
 ];
 
 export default {
