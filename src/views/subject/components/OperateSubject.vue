@@ -162,17 +162,15 @@ const judge = () => {
   return true;
 };
 
-const setSubject = () => {
+const setSubject = async () => {
   if (judge()) {
     if ((chapterIds.value as number[]).length) {
       curSubject.value.chapterId = (chapterIds.value as number[])[
         (chapterIds.value as number[]).length - 1
       ];
     }
-    createOrUpdateSubject(curSubject.value).then((res) => {
-      console.log(res.data);
-    });
-    ElMessage.success("修改成功！");
+    await createOrUpdateSubject(curSubject.value);
+    ElMessage.success(query.id ? "修改成功！" : "创建成功！");
     router.back();
   }
 };
