@@ -82,15 +82,12 @@ import { ref, watch } from "vue";
 import MyTable from "@/components/MyTable.vue";
 import { useRoute, useRouter } from "vue-router";
 import tableConfig from "./components/SubjectTable";
-import {
-  getSubjects,
-  getAllChapter,
-  IChapterData,
-  deleteSubject as deleteSubjectApi,
-} from "@/api";
-import type { ISubject } from "@/api";
 import formatTime from "@/utils/formatTime";
 import { ElMessage } from "element-plus";
+import { getSubjects, deleteSubject as deleteSubjectApi } from "@/api/subject";
+import { getAllChapter } from "@/api/chapter";
+import type { ISubject } from "@/api/subject/types";
+import type { IChapterData } from "@/api/chapter/types";
 
 const route = useRoute();
 const currentSubjectId = ref<number>();
@@ -140,7 +137,6 @@ watch(
   }
 );
 const newSubject = () => {
-  console.log("newSubject");
   router.push("/subject/operatesubject");
 };
 // 携带id参数

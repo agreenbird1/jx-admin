@@ -97,16 +97,13 @@ import { ref } from "vue";
 import RequireLabel from "@/components/RequireLabel.vue";
 import Editor from "@tinymce/tinymce-vue";
 import { initParams } from "./initEditor";
-import {
-  getAllChapter,
-  IChapterData,
-  ISubject,
-  createOrUpdateSubject,
-} from "@/api";
 import { useRoute } from "vue-router";
-import { getSubject } from "@/api";
 import { ElMessage } from "element-plus";
 import router from "@/router";
+import { getAllChapter } from "@/api/chapter";
+import { getSubject, createOrUpdateSubject } from "@/api/subject";
+import type { IChapterData } from "@/api/chapter/types";
+import type { ISubject } from "@/api/subject/types";
 
 const { query } = useRoute();
 const chapterIds = ref<number | number[]>();

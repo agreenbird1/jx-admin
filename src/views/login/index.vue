@@ -42,7 +42,7 @@
 <script setup lang="ts">
 import { reactive, ref } from "vue";
 import type { FormInstance } from "element-plus";
-import { login } from "@/api";
+import { login } from "@/api/login";
 import { ElMessage } from "element-plus";
 import router from "@/router";
 import { useAdminStore } from "@/store/admin";

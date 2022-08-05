@@ -1,10 +1,5 @@
 import request from "@/utils/request";
-
-export interface IAdmin {
-  id: number;
-  nickname: string;
-  avatar: string;
-}
+import { IAdmin } from "./types";
 
 /**
  *

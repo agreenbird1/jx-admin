@@ -44,8 +44,8 @@ import MainHeader from "@/components/MainHeader.vue";
 import MyTable from "@/components/MyTable.vue";
 import tableConfig from "./components/CourseTable";
 import { useRouter } from "vue-router";
-import { getAllCourse } from "@/api";
-import { ICourse } from "@/api";
+import { getAllCourse } from "@/api/course";
+import type { ICourse } from "@/api/course/types";
 import formatTime from "@/utils/formatTime";
 
 const loading = ref(false);
@@ -59,7 +59,6 @@ const router = useRouter();
 watch(
   () => status.value,
   () => {
-    console.log(status.value);
     tableData.value = [];
     currentPage.value = 1;
     getTableData();

@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import storage from "@/utils/storage";
-import { IAdmin } from "@/api";
+import { IAdmin } from "@/api/login/types";
 
 export const useAdminStore = defineStore({
   id: "admin",

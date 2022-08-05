@@ -5,6 +5,7 @@ import router from "./router/index";
 import components from "@/components";
 import "@/assets/styles/normalize.less";
 import "element-plus/dist/index.css";
+import "element-plus/theme-chalk/dark/css-vars.css";
 
 const app = createApp(App);
 app.use(store);

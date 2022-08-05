@@ -1,12 +1,12 @@
-import {
-  IChapterData,
-  createChapter,
-  updateChapterApi,
-  deleteChapterApi,
-} from "@/api";
 import { ref } from "vue";
-import { getAllChapter } from "@/api";
 import { ElMessage } from "element-plus";
+import {
+  getAllChapter,
+  updateChapterApi,
+  createChapter,
+  deleteChapterApi,
+} from "@/api/chapter";
+import type { IChapterData } from "@/api/chapter/types";
 
 const useChapter = () => {
   const isLoading = ref(true);
