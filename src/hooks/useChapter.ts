@@ -20,8 +20,9 @@ const useChapter = () => {
     type: 1,
     id: undefined,
   };
-  const chapters = ref<IChapterData[]>(); // 所有的数据
-  const chapter = ref<IChapterData>(); // 当前操作的 chapter
+  // 放入 initial 数据，则不需要使用 !
+  const chapters = ref<IChapterData[]>([]); // 所有的数据
+  const chapter = ref<IChapterData>({}); // 当前操作的 chapter
   const parentChapterId = ref<number>();
   const defaultProps = {
     children: "children",
@@ -32,14 +33,14 @@ const useChapter = () => {
   // 判断父级是否打开
   const judgeParentOpen = (id: number, type: number) => {
     let ans = false;
-    chapters.value!.map((cOne) => {
+    chapters.value.forEach((cOne) => {
       if (type === 2) {
         const item = cOne.children!.find((cTwo) => cTwo.id === id);
         if (item) {
           ans = cOne.isFrontendShow === 1;
         }
       } else {
-        cOne.children?.map((cTwo) => {
+        cOne.children?.forEach((cTwo) => {
           const item = cTwo.children?.find((cThree) => cThree.id === id);
           if (item) {
             ans = cOne.isFrontendShow === 1 && cTwo.isFrontendShow === 1;
@@ -65,8 +66,8 @@ const useChapter = () => {
     const { id, type } = curChapter;
     chapterDialogVisible.value = true;
     chapter.value = { ...initChapter };
-    chapter.value!.parentId = id;
-    chapter.value!.type = type! + 1;
+    chapter.value.parentId = id;
+    chapter.value.type = type! + 1;
   };
   // 更新章节内容 或者 是否显示
   const updateFn = (curChapter: IChapterData, e?: Event) => {
@@ -108,9 +109,9 @@ const useChapter = () => {
   };
   const confirmAdd = () => {
     // 父级未打开时候添加子类，如果子类设置为显示则将其关闭
-    chapter.value!.isFrontendShow = judgeParentOpen(
-      chapter.value!.id!,
-      chapter.value!.type!
+    chapter.value.isFrontendShow = judgeParentOpen(
+      chapter.value.id!,
+      chapter.value.type!
     )
       ? 1
       : 2;
@@ -121,8 +122,8 @@ const useChapter = () => {
   };
   const confirmUpdate = () => {
     if (
-      judgeParentOpen(chapter.value!.id!, chapter.value!.type!) ||
-      chapter.value!.type === 1
+      judgeParentOpen(chapter.value.id!, chapter.value.type!) ||
+      chapter.value.type === 1
     ) {
       isLoading.value = true;
       updateChapterApi(chapter.value as IChapterData).then((res) => {
@@ -133,7 +134,7 @@ const useChapter = () => {
   };
   const confirmDelete = () => {
     deleteDialogVisible.value = false;
-    deleteChapterApi(chapter.value!.id!).then((res) => {
+    deleteChapterApi(chapter.value.id!).then((res) => {
       reqCb(res.data.code, "删除成功！", "删除失败！");
     });
   };
