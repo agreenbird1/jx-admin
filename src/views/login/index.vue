@@ -70,8 +70,8 @@ const validateUser = (rule: unknown, value: string, callback: any) => {
 
 const adminStore = useAdminStore();
 const ruleForm = reactive({
-  nickname: "admin",
-  password: "123456",
+  nickname: "",
+  password: "",
 });
 const rules = reactive({
   password: [{ validator: validatePass, trigger: "blur" }],
