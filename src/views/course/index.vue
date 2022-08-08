@@ -73,7 +73,7 @@ watch(
 );
 const getTableData = () => {
   loading.value = true;
-  getAllCourse(status.value).then(({ data }) => {
+  getAllCourse(status.value, currentPage.value).then(({ data }) => {
     loading.value = false;
     tableData.value = data.data.courses;
     total.value = data.data.pageVo.total;
