@@ -123,11 +123,15 @@ defineProps({
   },
 });
 // 列表选中、分页
-const emit = defineEmits(["selectionChange", "update:currentPage"]);
+const emit = defineEmits<{
+  (e: "selectionChange", args: any[]): void;
+  (e: "update:currentPage", currentPage: number): void;
+}>();
 const selectionChange = (...args: any[]) => emit("selectionChange", args);
-const handleCurrentChange = (currentPage: number) =>
+const handleCurrentChange = (val: number) => {
   // 组件的v-model
-  emit("update:currentPage", currentPage);
+  emit("update:currentPage", val);
+};
 </script>
 
 <style scoped lang="less">
