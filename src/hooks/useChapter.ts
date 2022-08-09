@@ -24,30 +24,40 @@ const useChapter = () => {
   const chapters = ref<IChapterData[]>([]); // 所有的数据
   const chapter = ref<IChapterData>({}); // 当前操作的 chapter
   const parentChapterId = ref<number>();
+  const expandKeys = ref<number[]>([]); // 展开的节点
+  const nodeExpand = (a: any) => {
+    expandKeys.value.push(a.id);
+  };
+  const nodeCollapse = (a: IChapterData) => {
+    expandKeys.value.splice(expandKeys.value.indexOf(a.id!), 1);
+  };
   const defaultProps = {
     children: "children",
     label: "content",
   };
-  let isUpdate = true;
-
+  const isUpdate = ref(true);
   // 判断父级是否打开
+  /**
+   * 子节点判断父节点是否打开
+   * @param id - 父级的id
+   * @param type - 自身的type
+   * @returns boolean 是否全部打开
+   */
   const judgeParentOpen = (id: number, type: number) => {
-    let ans = false;
-    chapters.value.forEach((cOne) => {
-      if (type === 2) {
-        const item = cOne.children!.find((cTwo) => cTwo.id === id);
-        if (item) {
-          ans = cOne.isFrontendShow === 1;
+    let ans = true;
+    if (type === 1) return true;
+    if (type === 2) {
+      const c = chapters.value.find((c) => c.id === id);
+      return c?.isFrontendShow === 1;
+    } else {
+      chapters.value.forEach((firNode) => {
+        const c = firNode.children?.find((c) => c.id === id);
+        if (c) {
+          // 在这里直接返回的话，是返回在了当前的回调里，没有向外！
+          ans = c.isFrontendShow === 1;
         }
-      } else {
-        cOne.children?.forEach((cTwo) => {
-          const item = cTwo.children?.find((cThree) => cThree.id === id);
-          if (item) {
-            ans = cOne.isFrontendShow === 1 && cTwo.isFrontendShow === 1;
-          }
-        });
-      }
-    });
+      });
+    }
     return ans;
   };
 
@@ -62,7 +72,7 @@ const useChapter = () => {
   // 注意：添加子级的时候，子级是否展示由父级决定！
   const addChapter = (curChapter: IChapterData, e?: Event) => {
     e && e.stopPropagation();
-    isUpdate = false;
+    isUpdate.value = false;
     const { id, type } = curChapter;
     chapterDialogVisible.value = true;
     chapter.value = { ...initChapter };
@@ -71,25 +81,21 @@ const useChapter = () => {
   };
   // 更新章节内容 或者 是否显示
   const updateFn = (curChapter: IChapterData, e?: Event) => {
-    isUpdate = true;
+    isUpdate.value = true;
     e && e.stopPropagation();
     chapterDialogVisible.value = true;
-    const { isFrontendShow, id, content, type } = curChapter;
-    chapter.value = { isFrontendShow, id, content, type };
+    const { isFrontendShow, id, content, type, parentId } = curChapter;
+    chapter.value = { isFrontendShow, id, content, type, parentId };
   };
   // 删除章节
-  const deleteChapter = (id: number, e?: Event) => {
+  const deleteChapter = (curChapter: IChapterData, e?: Event) => {
     e && e.stopPropagation();
     deleteDialogVisible.value = true;
-    chapter.value = { ...initChapter };
-    chapter.value.id = id;
+    chapter.value = { ...curChapter };
   };
   // 更改展示
   const changeShow = (curChapter: IChapterData, isFrontendShow: 1 | 2) => {
-    if (
-      judgeParentOpen(curChapter.id!, curChapter.type!) ||
-      curChapter.type === 1
-    ) {
+    if (judgeParentOpen(curChapter.parentId!, curChapter.type!)) {
       isLoading.value = true;
       updateChapterApi({
         isFrontendShow,
@@ -104,27 +110,26 @@ const useChapter = () => {
   // dialog 确认后的回调
   const confirm = () => {
     chapterDialogVisible.value = false;
-    if (isUpdate) confirmUpdate();
+    if (isUpdate.value) confirmUpdate();
     else confirmAdd();
   };
   const confirmAdd = () => {
     // 父级未打开时候添加子类，如果子类设置为显示则将其关闭
-    chapter.value.isFrontendShow = judgeParentOpen(
-      chapter.value.id!,
-      chapter.value.type!
-    )
-      ? 1
-      : 2;
+    if (chapter.value.isFrontendShow === 1) {
+      chapter.value.isFrontendShow = judgeParentOpen(
+        chapter.value.parentId!,
+        chapter.value.type!
+      )
+        ? 1
+        : 2;
+    }
     createChapter(chapter.value as IChapterData).then((res) => {
       reqCb(res.data.code, "创建章节成功！", "创建章节失败！");
     });
     chapter.value = { ...initChapter };
   };
   const confirmUpdate = () => {
-    if (
-      judgeParentOpen(chapter.value.id!, chapter.value.type!) ||
-      chapter.value.type === 1
-    ) {
+    if (judgeParentOpen(chapter.value.parentId!, chapter.value.type!)) {
       isLoading.value = true;
       updateChapterApi(chapter.value as IChapterData).then((res) => {
         reqCb(res.data.code, "修改成功！", "修改失败！");
@@ -161,6 +166,10 @@ const useChapter = () => {
     getAllChapterData,
     confirmDelete,
     changeShow,
+    nodeExpand,
+    nodeCollapse,
+    expandKeys,
+    isUpdate,
   };
 };
 

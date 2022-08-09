@@ -8,7 +8,11 @@
         :data="(chapters as any)"
         empty-text="暂时没有数据"
         :props="defaultProps"
+        node-key="id"
         class="pt-10"
+        :default-expanded-keys="expandKeys"
+        @node-expand="nodeExpand"
+        @node-collapse="nodeCollapse"
       >
         <template #default="{ node }">
           <span class="custom-tree-node">
@@ -27,14 +31,18 @@
               </a>
               <a v-else style="display: inline-block; width: 65px"></a>
               <a @click="(e) => updateFn(node.data, e)">修改</a>
-              <a @click="(e) => deleteChapter(node.data.id, e)">删除</a>
+              <a @click="(e) => deleteChapter(node.data, e)">删除</a>
             </span>
           </span>
         </template>
       </el-tree>
     </div>
 
-    <el-dialog v-model="chapterDialogVisible" title="新建" width="30%">
+    <el-dialog
+      v-model="chapterDialogVisible"
+      :title="isUpdate ? '修改' : '新建'"
+      width="30%"
+    >
       <require-label text="章节名称" />
       <el-input
         v-model="chapter!.content"
@@ -61,7 +69,8 @@
 
     <el-dialog v-model="deleteDialogVisible" title="删除" width="30%">
       <el-icon color="red" class="mr-10"><warning /></el-icon>正在进行
-      <span style="color: red">删除章节</span>操作，请确认无误后进行删除！
+      <span style="color: red">删除 {{ chapter.content }} 章节</span
+      >操作，请确认无误后进行删除！
       <template #footer>
         <el-button size="small" @click="deleteDialogVisible = false"
           >取消</el-button
@@ -79,6 +88,7 @@ import useCourseChapter from "@/hooks/useChapter";
 
 // 章节
 const {
+  isUpdate,
   isLoading,
   chapterDialogVisible,
   deleteDialogVisible,
@@ -92,6 +102,9 @@ const {
   getAllChapterData,
   confirmDelete,
   changeShow,
+  expandKeys,
+  nodeExpand,
+  nodeCollapse,
 } = useCourseChapter();
 getAllChapterData();
 </script>
