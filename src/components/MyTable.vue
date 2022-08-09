@@ -128,9 +128,9 @@ const emit = defineEmits<{
   (e: "update:currentPage", currentPage: number): void;
 }>();
 const selectionChange = (...args: any[]) => emit("selectionChange", args);
-const handleCurrentChange = (val: number) => {
+const handleCurrentChange = (currentPage: number) => {
   // 组件的v-model
-  emit("update:currentPage", val);
+  emit("update:currentPage", currentPage);
 };
 </script>
 
