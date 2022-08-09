@@ -7,16 +7,20 @@
     </router-view>
     <main-header @new-item="newSubject">
       <template #left>
+        <!-- 长度限制、数字限制 -->
         <el-input
           v-model="topicNumber"
           size="small"
+          oninput="value=value.replace(/[^0-9]/g,'')"
           placeholder="请输入题号"
+          maxlength="8"
           type="text"
         />
         <el-cascader
           v-model="chapterId"
           :props="casProps"
           size="small"
+          filterable
           :options="(chapters as any)"
           placeholder="请选择章节"
           clearable
