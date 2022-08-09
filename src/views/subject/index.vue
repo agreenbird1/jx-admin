@@ -40,11 +40,11 @@
         :loading="loading"
       >
         <template #operation="scope">
-          <span @click="modifySubject(scope.row.id)">修改</span>
+          <span @click="modifySubject(scope.row)">修改</span>
           <span
             v-if="scope.row.isDelete === 1"
             class="ml-10"
-            @click="deleteSubject(scope.row.id)"
+            @click="deleteSubject(scope.row)"
             >删除</span
           >
         </template>
@@ -69,7 +69,9 @@
 
     <el-dialog v-model="deleteDialogVisible" title="删除" width="30%">
       <el-icon color="red" class="mr-10"><warning /></el-icon>正在进行
-      <span style="color: red">删除题目</span>操作，请确认无误后进行删除！
+      <span style="color: red"
+        >删除题号为{{ currentSubject?.topicNumber }}题目</span
+      >，请确认无误后进行删除！
       <template #footer>
         <el-button size="small" @click="deleteDialogVisible = false">
           取消
@@ -94,7 +96,7 @@ import type { ISubject } from "@/api/subject/types";
 import type { IChapterData } from "@/api/chapter/types";
 
 const route = useRoute();
-const currentSubjectId = ref<number>();
+const currentSubject = ref<ISubject>();
 const chapters = ref<IChapterData[]>();
 const currentPage = ref(1);
 const total = ref(1);
@@ -152,12 +154,12 @@ const modifySubject = (id: number) => {
     },
   });
 };
-const deleteSubject = (id: number) => {
-  currentSubjectId.value = id;
+const deleteSubject = (subject: ISubject) => {
+  currentSubject.value = subject;
   deleteDialogVisible.value = true;
 };
 const deleteSubjectConfirm = () => {
-  deleteSubjectApi(currentSubjectId.value as number).then((res) => {
+  deleteSubjectApi(currentSubject.value?.id as number).then((res) => {
     deleteDialogVisible.value = false;
     if (res.data.code === 2005) {
       ElMessage.success("删除成功！");
