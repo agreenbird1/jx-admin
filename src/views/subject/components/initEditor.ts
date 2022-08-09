@@ -1,6 +1,10 @@
 const initParams = {
   noneditable_editable_class: "mceNoneEditable",
   editable_editable_class: "mceEditable",
+  external_plugins: {
+    wordcount:
+      "https://img.juexiaotime.com/app/CDN/tinymce/plugins/wordcount/plugin.min.js", //wordcount
+  },
   cache_suffix: "?v=5.6.2",
   theme_url:
     "https://img.juexiaotime.com/app/CDN/tinymce/themes/silver/theme.min.js",
@@ -24,7 +28,7 @@ const initParams = {
   quickbars_insert_toolbar: "quicktable",
   draggable_modal: true,
   plugins:
-    "noneditable emoticons code  wordcount  preview searchreplace autolink  fullscreen link  table charmap hr pagebreak nonbreaking  advlist lists formatpainter powerpaste autoresize",
+    "noneditable emoticons code  wordcount preview searchreplace autolink  fullscreen link  table charmap hr pagebreak nonbreaking  advlist lists formatpainter powerpaste autoresize",
   toolbar_groups: {
     formatting: {
       text: "文字格式",
@@ -76,7 +80,6 @@ const initParams = {
     "微软雅黑=Microsoft YaHei,Helvetica Neue,PingFang SC,sans-serif;苹果苹方=PingFang SC,Microsoft YaHei,sans-serif;宋体=simsun,serif;仿宋体=FangSong,serif;黑体=SimHei,sans-serif;Arial=arial,helvetica,sans-serif;Symbol=symbol;Tahoma=tahoma,arial,helvetica,sans-serif;Terminal=terminal,monaco;Times New Roman=times new roman,times;Verdana=verdana,geneva;Webdings=webdings;Wingdings=wingdings,zapf dingbats;",
   images_upload_base_path: "",
   placeholder: "请输入内容",
-  ax_wordlimit_num: 10000,
   // insertblank
   quickbars_selection_toolbar:
     "bold italic underline  | link h2 h3 blockquote | forecolor backcolor  | alignleft aligncenter alignright alignjustify",
@@ -90,6 +93,26 @@ const initParams = {
     }, //optional: mathjax symbols
     className: "math-tex", //optional: mathjax element class
     configUrl: "https://img.juexiaotime.com/app/CDN/tinymce/mathjax/config.js", //optional: mathjax config js
+  },
+  init_instance_callback(editor: any) {
+    editor.on("wordlimit", function (e: any) {
+      // e.maxCount   // 配置的最大输入字数
+      // e.wordCount  // 已输入的字数
+      // e.preCount    // 粘贴进来的内容字数，可以用来单独提示粘贴内容时超出的计算
+      // e.isPaste       // 是否是粘贴输入
+
+      let beyond = 0;
+      if (e.wordCount > e.maxCount) {
+        beyond = e.wordCount - e.maxCount;
+      }
+      // 可以吧alert换成自己的提示组件
+      alert(
+        "最多只能输入" +
+          e.maxCount +
+          "个字" +
+          (beyond > 0 ? "，已超出" + beyond + "个字，超出部分无法保存" : "。")
+      );
+    });
   },
 };
 

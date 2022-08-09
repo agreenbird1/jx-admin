@@ -18,6 +18,7 @@
             v-model="curSubject.topicNumber"
             class="mb-10 mt-10"
             placeholder="请输入题号"
+            oninput="value=value.replace(/[^0-9]/g,'')"
             maxlength="8"
             :show-word-limit="true"
             type="text"
@@ -37,6 +38,7 @@
             v-model="chapterIds"
             :props="casProps"
             size="small"
+            filterable
             :options="(chapters as any)"
             placeholder="请选择章节"
           />
@@ -149,12 +151,27 @@ const judge = () => {
   }
   if (!curSubject.value.options.trim()) {
     return warningMsg("请填写选项信息！");
+  } else if (
+    !/(A\.(.*)(\n)(\r)?)(B\.(.*)(\n)(\\r)?)(C\.(.*)(\n)(\\r)?)(D\.(.*)((\n)(\r)?)?)/.test(
+      curSubject.value.options
+    )
+  ) {
+    return warningMsg(
+      "选项信息格式不正确！请依次输入A、B、C、D四个选项，以换行符区分！"
+    );
   }
   if (!curSubject.value.answer.trim()) {
     return warningMsg("请填写答案信息！");
+  } else {
+    const result = curSubject.value.answer.trim().split(",");
+    // 不能使用 "ABCD" 因为 "CD" 会算作正确
+    const ans = result.every((option) => ["A", "B", "C", "D"].includes(option));
+    if (!ans) return warningMsg("答案信息格式不正确！");
   }
   if (!curSubject.value.resolve.trim()) {
     return warningMsg("请填写答案解析！");
+  } else if (curSubject.value.resolve.length > 1500) {
+    return warningMsg("答案解析最大有效长度只有1500！");
   }
   return true;
 };
