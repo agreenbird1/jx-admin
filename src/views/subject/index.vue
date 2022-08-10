@@ -40,7 +40,7 @@
         :loading="loading"
       >
         <template #operation="scope">
-          <span @click="modifySubject(scope.row)">修改</span>
+          <span @click="modifySubject(scope.row.id)">修改</span>
           <span
             v-if="scope.row.isDelete === 1"
             class="ml-10"
