@@ -47,6 +47,7 @@ import { ElMessage } from "element-plus";
 import router from "@/router";
 import { useAdminStore } from "@/store/admin";
 import storage from "@/utils/storage";
+import CryptoJS from "crypto-js";
 
 // 表单实例
 const ruleFormRef = ref<FormInstance>();
@@ -82,7 +83,17 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.validate(async (valid) => {
     if (valid) {
-      const { data } = await login(ruleForm.nickname, ruleForm.password);
+      const { data } = await login(
+        ruleForm.nickname,
+        CryptoJS.AES.encrypt(
+          "123456",
+          CryptoJS.enc.Utf8.parse("hAz11oBYbdqfDKaE"),
+          {
+            mode: CryptoJS.mode.ECB,
+            padding: CryptoJS.pad.Pkcs7,
+          }
+        ).toString()
+      );
       if (data.code !== 2002) {
         // 成功状态码
         ElMessage.error(data.msg);
